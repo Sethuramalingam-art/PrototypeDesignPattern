@@ -1,0 +1,82 @@
+What is prototype in JavaScript?
+Objects in JavaScript are very special, they can be created directly without having a Class defined and the objects have a special property called prototype available to them that holds the reference to the parent that has created it.
+
+If you are declaring an object directly then the prototype will point to the default properties that are available on an object in JavaScript.
+
+If the object is an instance derived from a constructor then its prototype will point to the prototype property of the constructor class.
+
+class Robot {
+   constructor(name){
+     this.name = name;
+   }
+
+   fire(){
+     return 'phew phew';
+   }
+};
+
+console.log(Robot);
+
+const robo1 = new Robot('RoboCop');
+
+console.log(robo1);
+
+
+What is prototype chain in JavaScript?
+When you try to access the methods or properties on the object, the object checks if that instance is available on it or not, if it is not available it will look for the same in the prototype.
+
+This is called a prototype chain where the derived object keeps looking for the properties in its prototype, this really helps in creating a single instance of the property on the constructor making it available to all the derived instances of it.
+
+For example, we will first create two instances of the Robot class and then add a new method called a report that will mark the attendance of the Robots.
+
+class Robot {
+  constructor(name){
+    this.name = name;
+  }
+
+  fire(){
+    return 'phew phew';
+  }
+};
+
+const robo1 = new Robot('RoboCop');
+const robo2 = new Robot('AutoBot');
+
+Robot.prototype.report = function(){
+  console.log(`${this.name} reporting sir!`);
+}
+
+robo1.report();
+//RoboCop reporting sir!
+
+robo2.report();
+//AutoBot reporting sir!
+
+
+In the prototype, the new method was shared among all the instances, we were able to access the name of each object individually, which means that even though method is shared the preference for this is given to the nearest scope.
+
+class Robot {
+  constructor(name){
+    this.name = name;
+  }
+
+  fire(){
+    return 'phew phew';
+  }
+};
+
+const robo1 = new Robot('RoboCop');
+const robo2 = new Robot('AutoBot');
+
+Robot.prototype.report = function(){
+  console.log(`${this.name} reporting sir!`);
+}
+
+Robot.prototype.name = "abc";
+
+robo1.report();
+//RoboCop reporting sir!
+
+robo2.report();
+//AutoBot reporting sir!
+
