@@ -80,3 +80,69 @@ robo1.report();
 robo2.report();
 //AutoBot reporting sir!
 
+Even if we have added the property name to the prototype, the methods accessing the property value from its nearest scope. If we remove the name property from the constructor then it will access it from the prototype chain.
+
+class Robot {
+  constructor(name){
+    // this.name = name;
+  }
+
+  fire(){
+    return 'phew phew';
+  }
+};
+
+const robo1 = new Robot('RoboCop');
+const robo2 = new Robot('AutoBot');
+
+Robot.prototype.report = function(){
+  console.log(`${this.name} reporting sir!`);
+}
+
+Robot.prototype.name = "abc";
+
+robo1.report();
+//abc reporting sir!
+
+robo2.report();
+//abc reporting sir!
+
+
+Prototype design pattern in JavaScript
+We can make use of the prototype and form a pattern to remove the need to define the same method repeatedly rather create one on the prototype and share it with all the instances.
+
+For example, in this, we have a Class that extends another Class and we have added a property on the prototype of the first class, still when we try to access that property report it looks for it in the chain and invokes it.
+
+class Robot {
+   constructor(name){
+     this.name = name;
+   }
+
+   fire(){
+     return 'phew phew';
+   }
+};
+
+class Transform extends Robot {
+  constructor(name, nature){
+    super(name);
+    this.nature = nature;
+  }
+  
+  getNature(){
+    console.log(`I am ${this.nature}`);
+  }
+}
+
+const robo1 = new Transform('RoboCop', 'good');
+const robo2 = new Transform('AutoBot', 'evil');
+
+Robot.prototype.report = function(){
+  console.log(`${this.name} reporting sir!`);
+}
+
+robo1.report();
+//RoboCop reporting sir!
+
+robo2.report();
+//AutoBot reporting sir!
